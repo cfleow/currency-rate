@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Currency Rate Viewer
+
+This is a simple web application that displays the latest and historical exchange rates.
+
+## Features
+
+- View the latest exchange rates for various currencies.
+- Select a date to view historical exchange rates.
+- Infinite scroll to lazy-load more currencies.
+- Docker support for easy setup.
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) - React Framework
+- [Tailwind CSS](https://tailwindcss.com/) - CSS Framework
+- [Prisma](https://www.prisma.io/) - ORM
+- [SQLite](https://www.sqlite.org/index.html) - Database
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Node.js](https://nodejs.org/en/) (v18 or later)
+- [npm](https://www.npmjs.com/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    ```bash
+    git clone <repository-url>
+    cd currency-rate
+    ```
 
-## Learn More
+2.  **Install dependencies**
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Set up the database**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    This command will create the `dev.db` SQLite database file and run the seed script to populate it with initial data.
 
-## Deploy on Vercel
+    ```bash
+    npx prisma db push --accept-data-loss
+    npx prisma db seed
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.  **Run the development server**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Docker
+
+1.  **Build the Docker image**
+
+    ```bash
+    docker build -t currency-rate .
+    ```
+
+2.  **Run the Docker container**
+
+    ```bash
+    docker run -p 3000:3000 currency-rate
+    ```
+
+    The application will be available at [http://localhost:3000](http://localhost:3000).
+
+    Note: The Docker container uses the production build of the application. The database is bundled with the image.
+
+## API Endpoint
+
+The application provides a single API endpoint to fetch exchange rates.
+
+- `GET /api/rates`
+
+**Query Parameters:**
+
+- `date` (optional): The date for which to fetch historical rates, in `YYYY-MM-DD` format. If not provided, the latest rates for all currencies are returned.
+- `page` (optional): The page number for pagination (12 items per page). Defaults to `1`.
+
+"""
+Scaling Consideration
+
+- the requirement are up to day level of currency querying, if we have to scale into minute / seconds of currency, the design will not scale. Would recommend to use Clickhouse as a timeseries database solution.

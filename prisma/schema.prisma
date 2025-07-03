@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Currency {
+  id            String         @id @default(uuid())
+  code          String         @unique
+  name          String
+  createdAt     DateTime       @default(now()) @map("created_at")
+  exchangeRates ExchangeRate[]
+
+  @@map("currency")
+}
+
+model ExchangeRate {
+  id         String      @id @default(uuid())
+  rate       Float
+  date       String
+  createdAt  DateTime    @default(now()) @map("created_at")
+  currency   Currency    @relation(fields: [currencyId], references: [id])
+  currencyId String      @map("currency_id")
+
+  @@map("exchange_rate")
+} 
