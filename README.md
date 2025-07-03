@@ -28,7 +28,7 @@ This is a simple web application that displays the latest and historical exchang
 1.  **Clone the repository**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/cfleow/currency-rate.git
     cd currency-rate
     ```
 
