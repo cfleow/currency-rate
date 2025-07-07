@@ -57,21 +57,21 @@ This is a simple web application that displays the latest and historical exchang
 
 ### Docker
 
-1.  **Build the Docker image**
+1. **Build the Docker image**
 
-    ```bash
-    docker build -t currency-rate .
-    ```
+   ```bash
+   docker build -t currency-rate .
+   ```
 
-2.  **Run the Docker container**
+2. **Run the Docker container**
 
-    ```bash
-    docker run -p 3000:3000 currency-rate
-    ```
+   ```bash
+   docker run -p 3000:3000 currency-rate
+   ```
 
-    The application will be available at [http://localhost:3000](http://localhost:3000).
+   The application will be available at [http://localhost:3000](http://localhost:3000).
 
-    Note: The Docker container uses the production build of the application. The database is bundled with the image.
+   Note: The Docker container uses the production build of the application. The database is bundled with the image.
 
 ## API Endpoint
 

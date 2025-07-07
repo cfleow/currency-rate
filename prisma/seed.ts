@@ -119,10 +119,12 @@ function getPreviousDay(daysBefore: number) {
   return previousDayString;
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error(`Seeding failed:${error}`);
-} finally {
-  await prisma.$disconnect();
-}
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (error) => {
+    console.error(`Seeding failed:${error}`);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
